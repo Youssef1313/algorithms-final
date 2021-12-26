@@ -1,1 +1,1 @@
-# algorithms-final
+# Algorithms final project
