@@ -18,4 +18,4 @@ jobs:
       - name: Build with javac
         run: find . -name "*.java" -print | xargs javac -cp "junit-platform-console-standalone-1.8.2.jar" # Credits to https://stackoverflow.com/a/8332169/5108631
       - name: Run tests
-        run: java -jar junit-platform-console-standalone-1.8.2.jar -cp "."
+        run: java -jar junit-platform-console-standalone-1.8.2.jar --scan-modules
