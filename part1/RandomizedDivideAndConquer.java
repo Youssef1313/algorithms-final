@@ -9,7 +9,7 @@ public class RandomizedDivideAndConquer implements MedianCalculator {
 
         // TODO: Implement.
         int i = array.length / 2;
-        return medianRandomized(array, 0, array.length, i);
+        return medianRandomized(array, 0, array.length-1, i);
     }
 
     private int medianRandomized(int[] array, int p, int r, int i) {
