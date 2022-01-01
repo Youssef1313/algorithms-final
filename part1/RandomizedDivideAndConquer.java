@@ -27,7 +27,7 @@ public class RandomizedDivideAndConquer implements MedianCalculator {
     }
 
     private int randomizedPartition(int[] array, int p, int r) {
-        int i = (int) (Math.random() * p); //Get A Random Number Between p and r
+        int i = (int) (Math.random() * r); //Get A Random Number Between p and r
         int temp = array[i];
         array[i] = array[r];
         array[r] = temp;
@@ -40,9 +40,9 @@ public class RandomizedDivideAndConquer implements MedianCalculator {
         int j = r + 1;
         while (true){
             while (array[j] <= x)
-                j-=1;
+                j--;
             while (array[i] >= x)
-                i+=1;
+                i++;
 
             if (i < j){
                 int temp = array[i];
