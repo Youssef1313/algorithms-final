@@ -33,7 +33,7 @@ public class MedianOfMedians implements MedianCalculator {
         int length = end - start + 1;
         if (length <= 5) {
             Arrays.sort(array, start, end + 1);
-            return array[start + length / 2];
+            return array[start + k];
         }
 
         var medians = new int[(int)Math.ceil(length / 5.0)];
@@ -56,7 +56,7 @@ public class MedianOfMedians implements MedianCalculator {
         }
         else if (partitionIndex < k) {
             // search right.
-            return select(array, partitionIndex + 1, end, k - partitionIndex - 1);
+            return select(array, start + partitionIndex + 1, end, k - partitionIndex - 1);
         }
         else {
             // search left.
