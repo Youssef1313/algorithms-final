@@ -27,5 +27,7 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
+    <build>
+        <sourceDirectory>${project.basedir}</sourceDirectory>
+    </build>
 </project>
