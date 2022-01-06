@@ -1,3 +1,5 @@
+package median;
+
 import java.util.Arrays;
 
 public class NaiveSorting implements MedianCalculator {

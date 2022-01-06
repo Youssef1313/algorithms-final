@@ -1,3 +1,5 @@
+package median;
+
 import java.util.Arrays;
 
 public class MedianOfMedians implements MedianCalculator {
@@ -62,7 +64,7 @@ public class MedianOfMedians implements MedianCalculator {
         }
     }
 
-    // TODO: These are almost exact copies from RandomizedDivideAndConquer. Refactor!
+    // TODO: These are almost exact copies from median.RandomizedDivideAndConquer. Refactor!
     // An inefficient implementation of partitioning :/
     // CLRS 7.1
     private int partition2(int[] array, int start, int end, int pivot) {
