@@ -1,4 +1,4 @@
-import part2.Compress;
+package huffman;
 
 public class Main {
 

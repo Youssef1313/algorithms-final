@@ -1,4 +1,4 @@
-package part2;
+package huffman;
 
 import java.math.BigInteger;
 import java.util.HashMap;

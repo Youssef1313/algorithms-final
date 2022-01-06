@@ -1,4 +1,5 @@
-package part2_6668;
+package huffman;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
