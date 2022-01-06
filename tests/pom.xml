@@ -28,6 +28,6 @@
         </dependency>
     </dependencies>
     <build>
-        <sourceDirectory>${project.basedir}</sourceDirectory>
+        <testSourceDirectory>${project.basedir}</testSourceDirectory>
     </build>
 </project>
