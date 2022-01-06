@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.stream.IntStream;
 public class Compress {
 
+
     public byte[] readingFile(String filename){
         byte[] file_b = {};
         try (RandomAccessFile file = new RandomAccessFile(new File(filename), "r"))
@@ -29,6 +30,7 @@ public class Compress {
         }catch (IOException e) {
             e.printStackTrace();
         }
+
         return file_b;
     }
 

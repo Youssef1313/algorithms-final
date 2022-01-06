@@ -39,7 +39,7 @@ public class Huffman {
 //        HashMap<BigInteger, Integer> huffmanDict = extractDict(root);
 
     }
-
+    //TODO: Implement Extraction of F dict
 //    private HashMap<BigInteger, Integer> extractDict(Node root) {
 //
 //    }
@@ -52,7 +52,7 @@ public class Huffman {
             prevIndex = i;
             byte[] nByte = Arrays.copyOfRange(file_b, i,i+number_n);
             BigInteger key = new BigInteger(nByte);
-            if (hashMap.containsValue(key)){
+            if (hashMap.containsKey(key)){
                 int v = hashMap.get(key);
                 hashMap.put(key, v+1);
             }else{
