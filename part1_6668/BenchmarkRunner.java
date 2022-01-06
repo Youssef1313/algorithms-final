@@ -1,5 +1,3 @@
-package part1_6668;
-
 import java.io.IOException;
 
 public class BenchmarkRunner {

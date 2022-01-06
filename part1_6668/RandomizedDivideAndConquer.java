@@ -1,5 +1,3 @@
-package part1_6668;
-
 import java.util.Random;
 
 public class RandomizedDivideAndConquer implements MedianCalculator {

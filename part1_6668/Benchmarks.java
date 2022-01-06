@@ -1,5 +1,3 @@
-package part1_6668;
-
 import org.openjdk.jmh.annotations.*;
 
 public class Benchmarks {
