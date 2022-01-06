@@ -1,6 +1,6 @@
-package part1.tests;
+package tests;
 
-import part1.RandomizedDivideAndConquer;
+import part1_6668.RandomizedDivideAndConquer;
 
 public class RandomizedDivideAndConquerTest extends MedianTestBase<RandomizedDivideAndConquer> {
     @Override

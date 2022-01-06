@@ -1,6 +1,6 @@
-package part1.tests;
+package tests;
 
-import part1.MedianOfMedians;
+import part1_6668.MedianOfMedians;
 
 public final class MedianOfMediansTest extends MedianTestBase<MedianOfMedians> {
     @Override

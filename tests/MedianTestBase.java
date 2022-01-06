@@ -1,9 +1,9 @@
-package part1.tests;
+package tests;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import part1.MedianCalculator;
+import part1_6668.MedianCalculator;
 
 public abstract class MedianTestBase<T extends MedianCalculator> {
 
