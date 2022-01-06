@@ -1,3 +1,5 @@
+package benchmarks;
+
 import java.io.IOException;
 
 public class BenchmarkRunner {

@@ -1,3 +1,5 @@
+package benchmarks;
+
 import org.openjdk.jmh.annotations.*;
 
 public class Benchmarks {
