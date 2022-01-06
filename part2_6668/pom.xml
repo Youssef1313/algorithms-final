@@ -4,18 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
-    <artifactId>algorithms-final</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>part1_6668</module>
-        <module>part2_6668</module>
-        <module>tests</module>
-    </modules>
+    <parent>
+        <groupId>org.example</groupId>
+        <artifactId>algorithms-final</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-    </properties>
+    <groupId>org.example</groupId>
+    <artifactId>algorithms-final-part2</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <build>
+        <sourceDirectory>${project.basedir}</sourceDirectory>
+    </build>
 </project>
