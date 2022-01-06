@@ -39,7 +39,7 @@ public class MedianOfMedians implements MedianCalculator {
         var medians = new int[(int)Math.ceil(length / 5.0)];
 
         for (int i = 0; i < medians.length; i++) {
-            int fromIndex = i * 5;
+            int fromIndex = start + i * 5;
 
             // Arrays.sort parameters are 'fromIndex' (inclusive) and 'toIndex' (**exclusive**).
             int toIndex = Math.min(fromIndex + 5, end + 1);
@@ -50,7 +50,7 @@ public class MedianOfMedians implements MedianCalculator {
         }
 
         int medianOfMedians = select(medians, 0, medians.length - 1, medians.length / 2);
-        int partitionIndex = partition2(array, start, end, medianOfMedians);
+        int partitionIndex = partition2(array, start, end, medianOfMedians) - start;
         if (partitionIndex == k) {
             return medianOfMedians;
         }
@@ -60,7 +60,7 @@ public class MedianOfMedians implements MedianCalculator {
         }
         else {
             // search left.
-            return select(array, start, partitionIndex - 1, k);
+            return select(array, start, start + partitionIndex - 1, k);
         }
     }
 
@@ -68,9 +68,25 @@ public class MedianOfMedians implements MedianCalculator {
     // An inefficient implementation of partitioning :/
     // CLRS 7.1
     private int partition2(int[] array, int start, int end, int pivot) {
+        // This partitioning algorithm assumes that we partition a pivot at the end.
+        // Let's move the pivot item to the end. This is not efficient, but...
+        if (array[end] != pivot) {
+            for (int i = start; i <= end; i++) {
+                if (array[end] != pivot && array[i] == pivot) {
+                    swap(array, i, end);
+                    break;
+                }
+            }
+        }
+
+        // i represents the end of the left partition.
+        // initially, we have no items in the left partition.
         int i = start - 1;
+
         for (int j = start; j < end; j++) {
             if (array[j] <= pivot) {
+                // We have an item in the left partition.
+                // The end of the left partition is increased.
                 i++;
                 swap(array, i, j);
             }
