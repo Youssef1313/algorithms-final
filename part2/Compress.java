@@ -37,17 +37,17 @@ public class Compress {
 //        for (int i = 0; i < 10; i+=1) {
 //            System.out.println(Arrays.stream(findSlice(file_b, i, i)).toArray());
 //        }
-        byte[] test = new byte[2];
-        test[0] = file_b[0];
-        test[1] = file_b[1];
-        for (int i = 0; i < 2; i++) {
-            System.out.println(test[i]);
-        }
-
-        for(final byte b : test) {
-            System.out.print(Integer.toString(b & 0xFF /* thx Jason Day */, 2));
-        }
-        System.out.println();
+//        byte[] test = new byte[2];
+//        test[0] = file_b[0];
+//        test[1] = file_b[1];
+//        for (int i = 0; i < 2; i++) {
+//            System.out.println(test[i]);
+//        }
+//
+//        for(final byte b : test) {
+//            System.out.print(Integer.toString(b & 0xFF /* thx Jason Day */, 2));
+//        }
+//        System.out.println();
 
 //        int intTest = new BigInteger(test).intValue();
 //        System.out.println(intTest);
