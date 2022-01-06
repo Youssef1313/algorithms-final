@@ -58,6 +58,6 @@
                 </configuration>
             </plugin>
         </plugins>
-        <testSourceDirectory>${project.basedir}</testSourceDirectory>
+        <testSourceDirectory>${project.basedir}/tests</testSourceDirectory>
     </build>
 </project>
