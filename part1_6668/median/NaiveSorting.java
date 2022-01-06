@@ -1,4 +1,4 @@
-package part1;
+package median;
 
 import java.util.Arrays;
 

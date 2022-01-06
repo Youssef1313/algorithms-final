@@ -1,6 +1,6 @@
-package part1.tests;
+package tests;
 
-import part1.NaiveSorting;
+import median.NaiveSorting;
 
 public final class NaiveSortingTest extends MedianTestBase<NaiveSorting> {
     @Override
