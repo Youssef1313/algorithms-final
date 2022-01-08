@@ -3,17 +3,11 @@ package huffman;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.math.BigInteger;
-import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.stream.IntStream;
+
 public class Compress {
-
-
-    public byte[] readingFile(String filename){
+    public byte[] readingFile(String filename) {
         try (var file = new RandomAccessFile(new File(filename), "r"))
         {
             //Get file channel in read-only mode
