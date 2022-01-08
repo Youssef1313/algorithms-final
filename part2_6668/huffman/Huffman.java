@@ -32,6 +32,7 @@ public class Huffman {
             return Integer.compare(freq, o.freq);
         }
     }
+    
     public HashMap<BigInteger, String> huffman(byte[] file_b, int number_n){
 
         PriorityQueue<Node> pQueue = calculate_freq(file_b, number_n);
@@ -40,7 +41,7 @@ public class Huffman {
         extractDict(root, huffmanDict,"");
         return huffmanDict;
     }
-    //TODO: Implement Extraction of F dict
+
     private void extractDict(Node root, HashMap<BigInteger, String> huffmanDict, String string) {
         if (root.left == null && root.right==null && root.bytes != null) {
             huffmanDict.put(root.bytes, string);
