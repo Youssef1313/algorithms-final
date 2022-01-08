@@ -14,24 +14,24 @@ public class Compress {
 
 
     public byte[] readingFile(String filename){
-        byte[] file_b = {};
-        try (RandomAccessFile file = new RandomAccessFile(new File(filename), "r"))
+        try (var file = new RandomAccessFile(new File(filename), "r"))
         {
             //Get file channel in read-only mode
             FileChannel fileChannel = file.getChannel();
 
             //Get direct byte buffer access using channel.map() operation
             MappedByteBuffer buffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, 0, fileChannel.size());
-            file_b = new byte[(int) fileChannel.size()];
+            var file_b = new byte[(int) fileChannel.size()];
             // the buffer now reads the file as if it were loaded in memory.
             System.out.println(buffer.isLoaded());  //prints false
             System.out.println(buffer.capacity());  //Get the size based on content size of file
             buffer.get(file_b);
-        }catch (IOException e) {
+            return file_b;
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return file_b;
+        return null;
     }
 
 }
