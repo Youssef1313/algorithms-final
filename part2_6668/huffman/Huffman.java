@@ -47,11 +47,12 @@ public class Huffman {
             huffmanDict.put(root.bytes, string);
             return;
         }
-        if(root.right != null)
-            extractDict(root.right, huffmanDict, string+"1");
-        if(root.left != null)
-            extractDict(root.left, huffmanDict,string+"0");
 
+        if(root.left != null)
+            extractDict(root.left, huffmanDict,string + "0");
+
+        if(root.right != null)
+            extractDict(root.right, huffmanDict, string + "1");
 
     }
 
