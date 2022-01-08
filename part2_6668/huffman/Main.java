@@ -5,8 +5,6 @@ public class Main {
     public static void main(String[] args) {
         System.out.println(Integer.MAX_VALUE);
         // 01111111111111111111111111111111
-        String s = "01";
-        System.out.println(s+"0");
 
         Compress compress = new Compress();
         byte[] fb = compress.readingFile("/media/zayton/HDD-Data/desktop/eng/7thTerm/Alg/algorithms-final/part2_6668/file");

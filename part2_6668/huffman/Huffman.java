@@ -32,7 +32,7 @@ public class Huffman {
             return Integer.compare(freq, o.freq);
         }
     }
-    
+
     public HashMap<BigInteger, String> huffman(byte[] file_b, int number_n){
 
         PriorityQueue<Node> pQueue = calculate_freq(file_b, number_n);
