@@ -5,7 +5,7 @@ import java.util.*;
 
 
 public class Huffman {
-    private class Node implements Comparable<Node> {
+    private static class Node implements Comparable<Node> {
         private final int freq;
         private final Node left;
         private final Node right;
@@ -53,24 +53,6 @@ public class Huffman {
             int oldValue = hashMap.getOrDefault(key, 0);
             hashMap.put(key, oldValue +1);
         }
-//        if (file_b.length % number_n != 0) {
-//            //Store the remaining parts of the file
-//
-//            byte[] nByte = Arrays.copyOfRange(file_b, file_b.length - file_b.length % number_n, file_b.length);
-//            byte[] arr = new byte[number_n];
-//            Arrays.fill(arr, (byte) 0);
-//            System.arraycopy(nByte,0,arr,0,);
-//
-//            for (int i = 0; i < number_n; i++) {
-//                if (i<nByte.length)
-//                    arr[i] = nByte[i];
-//                else
-//                    arr[i] = 0;
-//            }
-//            BigInteger key = new BigInteger(arr);
-//            int oldValue = hashMap.getOrDefault(key, 0);
-//            hashMap.put(key, oldValue +1);
-//        }
 
         for (Map.Entry<BigInteger, Integer> e :hashMap.entrySet()) {
             Node node = new Node(e.getKey(), e.getValue());
@@ -80,17 +62,18 @@ public class Huffman {
         return nodeQueue;
     }
 
-    private Node huffmanAlgorithm(PriorityQueue priorityQueue){
+    private Node huffmanAlgorithm(PriorityQueue<Node> priorityQueue){
         int n = priorityQueue.size();
-        PriorityQueue<Node> q = priorityQueue;
         for (int i = 0; i < n - 1; i++) {
-            var left = q.poll();
-            var right = q.poll();
+            var left = priorityQueue.poll();
+            var right = priorityQueue.poll();
+            assert left != null;
+            assert right != null;
             Node node = new Node(left, right);
 
-            q.add(node);
+            priorityQueue.add(node);
         }
-        return q.poll();
+        return priorityQueue.poll();
     }
 
 }
