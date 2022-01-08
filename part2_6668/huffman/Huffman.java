@@ -52,12 +52,8 @@ public class Huffman {
             prevIndex = i;
             byte[] nByte = Arrays.copyOfRange(file_b, i,i+number_n);
             BigInteger key = new BigInteger(nByte);
-            if (hashMap.containsKey(key)){
-                int v = hashMap.get(key);
-                hashMap.put(key, v+1);
-            }else{
-                hashMap.put(key, 1);
-            }
+            int oldValue = hashMap.getOrDefault(key, 0);
+            hashMap.put(key, oldValue +1);
         }
         if (prevIndex+number_n != file_b.length) {
             //Store the remaining parts of the file
