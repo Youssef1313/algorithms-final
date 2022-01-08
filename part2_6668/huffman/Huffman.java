@@ -67,12 +67,8 @@ public class Huffman {
                     arr[i] = 0;
             }
             BigInteger key = new BigInteger(arr);
-            if (hashMap.containsValue(key)){
-                int v = hashMap.get(key);
-                hashMap.put(key, v+1);
-            }else{
-                hashMap.put(key, 1);
-            }
+            int oldValue = hashMap.getOrDefault(key, 0);
+            hashMap.put(key, oldValue +1);
         }
 
         for (Map.Entry<BigInteger, Integer> e :hashMap.entrySet()) {
