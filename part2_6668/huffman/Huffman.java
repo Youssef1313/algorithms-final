@@ -47,29 +47,30 @@ public class Huffman {
     private PriorityQueue<Node> calculate_freq(byte[] file_b, int number_n){
         HashMap<BigInteger,Integer> hashMap = new HashMap<>();
         PriorityQueue<Node> nodeQueue = new PriorityQueue<>();
-        int prevIndex = 0;
         for (int i = 0; i < file_b.length; i+=number_n) {
-            prevIndex = i;
             byte[] nByte = Arrays.copyOfRange(file_b, i,i+number_n);
             BigInteger key = new BigInteger(nByte);
             int oldValue = hashMap.getOrDefault(key, 0);
             hashMap.put(key, oldValue +1);
         }
-        if (prevIndex+number_n != file_b.length) {
-            //Store the remaining parts of the file
-            byte[] nByte = Arrays.copyOfRange(file_b, prevIndex, prevIndex+number_n);
-            byte[] arr = new byte[number_n];
-
-            for (int i = 0; i < number_n; i++) {
-                if (i<nByte.length)
-                    arr[i] = nByte[i];
-                else
-                    arr[i] = 0;
-            }
-            BigInteger key = new BigInteger(arr);
-            int oldValue = hashMap.getOrDefault(key, 0);
-            hashMap.put(key, oldValue +1);
-        }
+//        if (file_b.length % number_n != 0) {
+//            //Store the remaining parts of the file
+//
+//            byte[] nByte = Arrays.copyOfRange(file_b, file_b.length - file_b.length % number_n, file_b.length);
+//            byte[] arr = new byte[number_n];
+//            Arrays.fill(arr, (byte) 0);
+//            System.arraycopy(nByte,0,arr,0,);
+//
+//            for (int i = 0; i < number_n; i++) {
+//                if (i<nByte.length)
+//                    arr[i] = nByte[i];
+//                else
+//                    arr[i] = 0;
+//            }
+//            BigInteger key = new BigInteger(arr);
+//            int oldValue = hashMap.getOrDefault(key, 0);
+//            hashMap.put(key, oldValue +1);
+//        }
 
         for (Map.Entry<BigInteger, Integer> e :hashMap.entrySet()) {
             Node node = new Node(e.getKey(), e.getValue());
