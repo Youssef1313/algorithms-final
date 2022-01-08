@@ -6,6 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="algorithms-final-tests" />
+        <module name="algorithms-final-part2" />
         <module name="algorithms-final-part1" />
         <module name="tests" />
       </profile>
