@@ -43,7 +43,8 @@ public class Huffman {
     }
 
     private void extractDict(Node root, HashMap<BigInteger, String> huffmanDict, String string) {
-        if (root.left == null && root.right==null && root.bytes != null) {
+        if (root.left == null && root.right == null) {
+            assert root.bytes != null;
             huffmanDict.put(root.bytes, string);
             return;
         }
