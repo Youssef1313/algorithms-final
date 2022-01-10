@@ -50,8 +50,6 @@ public class Main {
         // THE ENCODINGS, EACH HAS ENC bit
 
 
-
-
         // a = 00001111
         // 0000111100010000 file
         //["00001111" : 0] ->

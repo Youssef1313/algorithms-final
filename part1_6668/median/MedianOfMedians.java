@@ -36,7 +36,7 @@ public class MedianOfMedians implements MedianCalculator {
             return array[start + k];
         }
 
-        var medians = new int[(int)Math.ceil(length / 5.0)];
+        var medians = new int[(int) Math.ceil(length / 5.0)];
 
         for (int i = 0; i < medians.length; i++) {
             int fromIndex = start + i * 5;
@@ -53,12 +53,10 @@ public class MedianOfMedians implements MedianCalculator {
         int partitionIndex = partition2(array, start, end, medianOfMedians) - start;
         if (partitionIndex == k) {
             return medianOfMedians;
-        }
-        else if (partitionIndex < k) {
+        } else if (partitionIndex < k) {
             // search right.
             return select(array, start + partitionIndex + 1, end, k - partitionIndex - 1);
-        }
-        else {
+        } else {
             // search left.
             return select(array, start, start + partitionIndex - 1, k);
         }
