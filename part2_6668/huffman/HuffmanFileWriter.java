@@ -6,7 +6,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public final class HuffmanFileWriter {
     private final HashMap<BigInteger, String> encodingDictionary;
@@ -61,8 +64,11 @@ public final class HuffmanFileWriter {
             var sizeOfElementEncodingInBits = getSizeOfElementEncodingInBits();
             writer.write(sizeOfElementEncodingInBits);
 
-            var pairs = encodingDictionary.entrySet();
-            for (var pair : pairs) {
+            var fixedSizeEncodingDictionary = updateDictionaryToFixedSizeEncoding(sizeOfElementEncodingInBits);
+            var pairsForHeader = fixedSizeEncodingDictionary.entrySet();
+
+            // Write dictionary keys into file header.
+            for (var pair : pairsForHeader) {
                 var bytes = pair.getKey().toByteArray();
                 assert bytes.length <= n;
                 for (int i = 0; i < (n - bytes.length); i++) {
@@ -71,31 +77,61 @@ public final class HuffmanFileWriter {
 
                 writer.write(bytes);
             }
-            updateDictionaryToFixedSizeEncoding(sizeOfElementEncodingInBits);
-            writeEncodings(writer, originalFile, sizeOfElementEncodingInBits);
+
+            // Write dictionary values (encodings) into file header.
+            writeEncodings(writer, pairsForHeader);
+
+            // Header is completed. Write the encoded file itself.
+            writeEncodedFile(writer);
         }
     }
 
-    private void writeEncodings(FileOutputStream writer, byte[] originalFile, int sizeOfElementEncodingInBits) throws IOException {
-        var builder = new StringBuilder(originalFile.length * sizeOfElementEncodingInBits);
-        for (var b : originalFile) {
-            builder.append(encodingDictionary.get(b));
+    private void writeEncodedFile(FileOutputStream writer) throws IOException {
+        var builder = new StringBuilder(8);
+        for (int i = 0; i < originalFile.length; i += n) {
+            byte[] nByte = Arrays.copyOfRange(originalFile, i, i + n);
+            BigInteger key = new BigInteger(nByte);
+            builder.append(encodingDictionary.get(key));
+            while (builder.length() >= 8) {
+                writer.write(Integer.parseInt(builder.toString(), 0, 8, 2));
+                builder.delete(0, 8);
+            }
         }
 
-        // A file can't contain a partial of byte.
-        // Adding zeros to the end shouldn't be ambiguous since no encoding is a prefix of another.
-        while (builder.length() % 8 != 0) {
-            builder.append('0');
-        }
-
-        var encodedBitsAsString = builder.toString();
-        for (int i = 0; i < encodedBitsAsString.length(); i += 8) {
-            var encoded = Integer.parseInt(encodedBitsAsString, i, i + 7, 2);
-            writer.write(encoded);
+        if (builder.length() > 0) {
+            for (int i = 0; i < 8 - builder.length(); i++) {
+                // A file can't contain a partial of byte.
+                // Adding zeros to the end shouldn't be ambiguous since no encoding is a prefix of another.
+                builder.append('0');
+            }
+            writer.write(Integer.parseInt(builder.toString()));
         }
     }
 
-    private void updateDictionaryToFixedSizeEncoding(int sizeOfElementEncodingInBits) {
+    private static void writeEncodings(FileOutputStream writer, Set<Map.Entry<BigInteger, String>> pairsForHeader) throws IOException {
+        var builder = new StringBuilder(8);
+        for (var pair : pairsForHeader) {
+            var value = pair.getValue();
+            builder.append(value);
+            while (builder.length() >= 8) {
+                writer.write(Integer.parseInt(builder.toString(), 0, 8, 2));
+                builder.delete(0, 8);
+            }
+        }
+
+        if (builder.length() > 0) {
+            for (int i = 0; i < 8 - builder.length(); i++) {
+                // A file can't contain a partial of byte.
+                // Adding zeros to the end wouldn't be ambiguous since no we know the number of items in dictionary.
+                // The decompression will just skip the remaining part of this byte.
+                builder.append('0');
+            }
+            writer.write(Integer.parseInt(builder.toString()));
+        }
+    }
+
+    private HashMap<BigInteger, String> updateDictionaryToFixedSizeEncoding(int sizeOfElementEncodingInBits) {
+        var fixedSizeDictionary = new HashMap<BigInteger, String>();
         for (var pair : encodingDictionary.entrySet()) {
             var value = pair.getValue();
             assert sizeOfElementEncodingInBits > value.length();
@@ -107,8 +143,10 @@ public final class HuffmanFileWriter {
             builder.append(value);
             var fixedSizeEncoding = builder.toString();
             assert fixedSizeEncoding.length() == sizeOfElementEncodingInBits;
-            encodingDictionary.put(pair.getKey(), fixedSizeEncoding);
+            fixedSizeDictionary.put(pair.getKey(), fixedSizeEncoding);
         }
+
+        return fixedSizeDictionary;
     }
 
     private int getSizeOfElementEncodingInBits() {
