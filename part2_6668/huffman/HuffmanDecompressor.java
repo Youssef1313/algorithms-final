@@ -8,14 +8,14 @@ import java.nio.ByteBuffer;
 import java.util.HashMap;
 
 public final class HuffmanDecompressor {
-    private static final int FIRST_DICTIONARY_ELEMENT_INDEX = 7;
+    private static final int FIRST_DICTIONARY_ELEMENT_INDEX = 10;
 
     private HuffmanDecompressor() {
     }
 
     public static void decompress(byte[] compressedFile, String filePath) throws IOException {
         // SIZE_BYTE1 SIZE_BYTE2 SIZE_BYTE3 SIZE_BYTE4
-        // n NUMBER_OF_ELEMENTS_IN_DICTIONARY(S) SIZE_OF_ELEMENT_ENCODING_IN_BITS(ENC)
+        // n NUMBER_OF_ELEMENTS_IN_DICTIONARY(S)__4_BYTES SIZE_OF_ELEMENT_ENCODING_IN_BITS(ENC)
         // BYTE1_1 BYTE2_1 ... BYTE_N_1  (the bytes of first element in dictionary)
         // BYTE1_2 BYTE2_2 ... BYTE_N_2  (the bytes of second element in dictionary)
         // .....
@@ -23,8 +23,8 @@ public final class HuffmanDecompressor {
         // THE ENCODINGS, EACH HAS ENC bit
         int originalSize = ByteBuffer.wrap(new byte[] {compressedFile[0], compressedFile[1], compressedFile[2], compressedFile[3]}).getInt();
         int n = compressedFile[4];
-        int numberOfElementsInDictionary = compressedFile[5];
-        int sizeOfElementEncodingsInBits = compressedFile[6];
+        int numberOfElementsInDictionary = ByteBuffer.wrap(new byte[] { compressedFile[5], compressedFile[6], compressedFile[7], compressedFile[8]}).getInt();
+        int sizeOfElementEncodingsInBits = compressedFile[9];
         var dictionary = new HashMap<String, BigInteger>(numberOfElementsInDictionary);
         var dictionary_element = new byte[n];
         int read_bytes = FIRST_DICTIONARY_ELEMENT_INDEX; // the number of already-read bytes. ie, the index to read next.
