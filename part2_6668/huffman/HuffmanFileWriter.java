@@ -40,7 +40,9 @@ public final class HuffmanFileWriter {
             // While this overload takes an integer, it only writes the least significant **byte**.
             // This is expected per the documentation, and it's the behavior we want.
             writer.write(n);
-            writer.write(encodingDictionary.size());
+
+            var dictionarySize = ByteBuffer.allocate(4).putInt(encodingDictionary.size()).array();
+            writer.write(dictionarySize);
 
             // The idea here is that we have a variable-length encoding.
             // We want to store it in the file in a consistent non-ambiguous format.

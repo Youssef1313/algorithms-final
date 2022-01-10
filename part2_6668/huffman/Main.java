@@ -7,13 +7,13 @@ public class Main {
     public static void main(String[] args) throws Exception {
         boolean isCompressing;
         String filePath;
-        int n = 1;
+        int n = 3;
         if (args.length == 0) {
-            isCompressing = false;
+            isCompressing = true;
             //filePath = "/media/zayton/HDD-Data/desktop/eng/7thTerm/Alg/algorithms-final/part2_6668/file";
-            filePath = "C:\\Users\\PC\\Desktop\\gbbct10.seq\\testcompressed.txt";
+            //filePath = "C:\\Users\\PC\\Desktop\\gbbct10.seq\\testcompressed.txt";
             //filePath = "C:\\Users\\PC\\Downloads\\Sheet 8.pdf";
-
+            filePath = "C:\\Users\\PC\\Desktop\\gbbct10.seq\\gbbct10.seq";
             //filePath = "C:\\Users\\PC\\Desktop\\gbbct10.seq\\test";
         } else {
             if (args[0] != "c" && args[0] != "d") {
