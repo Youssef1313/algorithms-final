@@ -6,10 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public final class HuffmanFileWriter {
     private final HashMap<BigInteger, String> encodingDictionary;
@@ -87,13 +84,14 @@ public final class HuffmanFileWriter {
     }
 
     private void writeEncodedFile(FileOutputStream writer) throws IOException {
+        var blockWriter = new FileBlockWriter(writer, 2048);
         var builder = new StringBuilder(8);
         for (int i = 0; i < originalFile.length; i += n) {
             byte[] nByte = Arrays.copyOfRange(originalFile, i, i + n);
             BigInteger key = new BigInteger(nByte);
             builder.append(encodingDictionary.get(key));
             while (builder.length() >= 8) {
-                writer.write(Integer.parseInt(builder.toString(), 0, 8, 2));
+                blockWriter.write(Integer.parseInt(builder.toString(), 0, 8, 2));
                 builder.delete(0, 8);
             }
         }
@@ -104,8 +102,11 @@ public final class HuffmanFileWriter {
                 // Adding zeros to the end shouldn't be ambiguous since no encoding is a prefix of another.
                 builder.append('0');
             }
-            writer.write(Integer.parseInt(builder.toString()));
+
+            blockWriter.write(Integer.parseInt(builder.toString()));
         }
+
+        blockWriter.commitRemaining();
     }
 
     private static void writeEncodings(FileOutputStream writer, Set<Map.Entry<BigInteger, String>> pairsForHeader) throws IOException {

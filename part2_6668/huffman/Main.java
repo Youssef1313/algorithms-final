@@ -26,30 +26,25 @@ public class Main {
         }
 
         if (isCompressing) {
-            printTime();
-            System.out.println("Reading the file...");
+            printMessageWithTime("Reading the file...");
             var compress = new Compress();
             byte[] fb = compress.readingFile(filePath);
-            printTime();
-            System.out.println("Read " + fb.length + " bytes.");
-            printTime();
-            System.out.println("Constructing huffman tree...");
+            printMessageWithTime("Read " + fb.length + " bytes.");
+            printMessageWithTime("Constructing huffman tree...");
             Huffman huffman = new Huffman();
             var huffDict = huffman.huffman(fb, n);
-            printTime();
-            System.out.println("Constructed huffman tree...");
-            printTime();
-            System.out.println("Writing to the file...");
+
+            printMessageWithTime("Constructed huffman tree...");
+            printMessageWithTime("Writing to the file...");
             var writer = new HuffmanFileWriter(huffDict, fb, n);
             writer.write("C:\\Users\\PC\\Desktop\\gbbct10.seq\\compressed.hc");
-            printTime();
-            System.out.println("Wrote the file to disk.");
+            printMessageWithTime("Wrote the file to disk.");
         }
     }
 
-    private static void printTime() {
+    public static void printMessageWithTime(String s) {
         var now = Calendar.getInstance();
         System.out.print("[" + now.get(Calendar.HOUR_OF_DAY) + ":" + now.get(Calendar.MINUTE) + ":" + now.get(Calendar.SECOND) + "]: ");
-
+        System.out.println(s);
     }
 }
