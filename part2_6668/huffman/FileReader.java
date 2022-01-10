@@ -6,8 +6,11 @@ import java.io.RandomAccessFile;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 
-public class Compress {
-    public byte[] readingFile(String filename) {
+public class FileReader {
+    private FileReader() {
+    }
+
+    public static byte[] readFile(String filename) {
         try (var file = new RandomAccessFile(new File(filename), "r")) {
             //Get file channel in read-only mode
             FileChannel fileChannel = file.getChannel();
