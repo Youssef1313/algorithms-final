@@ -5,11 +5,13 @@ public class Main {
     public static void main(String[] args) {
         System.out.println(Integer.MAX_VALUE);
         // 01111111111111111111111111111111
-
+        int n = 1;
         Compress compress = new Compress();
         byte[] fb = compress.readingFile("/media/zayton/HDD-Data/desktop/eng/7thTerm/Alg/algorithms-final/part2_6668/file");
         Huffman huffman = new Huffman();
-        var huffDict = huffman.huffman(fb, 1);
+        var huffDict = huffman.huffman(fb, n);
+
+        var writer = new HuffmanFileWriter(huffDict, fb, n);
         System.out.println("ok");
         // n = 1
         //
