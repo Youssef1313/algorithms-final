@@ -8,8 +8,7 @@ import java.nio.channels.FileChannel;
 
 public class Compress {
     public byte[] readingFile(String filename) {
-        try (var file = new RandomAccessFile(new File(filename), "r"))
-        {
+        try (var file = new RandomAccessFile(new File(filename), "r")) {
             //Get file channel in read-only mode
             FileChannel fileChannel = file.getChannel();
 
