@@ -71,13 +71,44 @@ public final class HuffmanFileWriter {
 
                 writer.write(bytes);
             }
-
-            writeEncodings(writer, originalFile);
+            updateDictionaryToFixedSizeEncoding(sizeOfElementEncodingInBits);
+            writeEncodings(writer, originalFile, sizeOfElementEncodingInBits);
         }
     }
 
-    private void writeEncodings(FileOutputStream writer, byte[] originalFile) {
+    private void writeEncodings(FileOutputStream writer, byte[] originalFile, int sizeOfElementEncodingInBits) throws IOException {
+        var builder = new StringBuilder(originalFile.length * sizeOfElementEncodingInBits);
+        for (var b : originalFile) {
+            builder.append(encodingDictionary.get(b));
+        }
 
+        // A file can't contain a partial of byte.
+        // Adding zeros to the end shouldn't be ambiguous since no encoding is a prefix of another.
+        while (builder.length() % 8 != 0) {
+            builder.append('0');
+        }
+
+        var encodedBitsAsString = builder.toString();
+        for (int i = 0; i < encodedBitsAsString.length(); i += 8) {
+            var encoded = Integer.parseInt(encodedBitsAsString, i, i + 7, 2);
+            writer.write(encoded);
+        }
+    }
+
+    private void updateDictionaryToFixedSizeEncoding(int sizeOfElementEncodingInBits) {
+        for (var pair : encodingDictionary.entrySet()) {
+            var value = pair.getValue();
+            assert sizeOfElementEncodingInBits > value.length();
+            var builder = new StringBuilder(sizeOfElementEncodingInBits);
+            for (int i = 0; i < sizeOfElementEncodingInBits - value.length() - 1; i++) {
+                builder.append('0');
+            }
+            builder.append('1');
+            builder.append(value);
+            var fixedSizeEncoding = builder.toString();
+            assert fixedSizeEncoding.length() == sizeOfElementEncodingInBits;
+            encodingDictionary.put(pair.getKey(), fixedSizeEncoding);
+        }
     }
 
     private int getSizeOfElementEncodingInBits() {
