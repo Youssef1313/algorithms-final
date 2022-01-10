@@ -9,10 +9,12 @@ public class Main {
         String filePath;
         int n = 1;
         if (args.length == 0) {
-            isCompressing = true;
+            isCompressing = false;
             //filePath = "/media/zayton/HDD-Data/desktop/eng/7thTerm/Alg/algorithms-final/part2_6668/file";
-            filePath = "C:\\Users\\PC\\Desktop\\gbbct10.seq\\gbbct10.seq";
+            filePath = "C:\\Users\\PC\\Desktop\\gbbct10.seq\\testcompressed.txt";
             //filePath = "C:\\Users\\PC\\Downloads\\Sheet 8.pdf";
+
+            //filePath = "C:\\Users\\PC\\Desktop\\gbbct10.seq\\test";
         } else {
             if (args[0] != "c" && args[0] != "d") {
                 throw new Exception("The first argument should either be 'c' or 'd'.");
@@ -25,11 +27,10 @@ public class Main {
             }
         }
 
+        printMessageWithTime("Reading the file...");
+        byte[] fb = FileReader.readFile(filePath);
+        printMessageWithTime("Read " + fb.length + " bytes.");
         if (isCompressing) {
-            printMessageWithTime("Reading the file...");
-            var compress = new Compress();
-            byte[] fb = compress.readingFile(filePath);
-            printMessageWithTime("Read " + fb.length + " bytes.");
             printMessageWithTime("Constructing huffman tree...");
             Huffman huffman = new Huffman();
             var huffDict = huffman.huffman(fb, n);
@@ -37,8 +38,10 @@ public class Main {
             printMessageWithTime("Constructed huffman tree...");
             printMessageWithTime("Writing to the file...");
             var writer = new HuffmanFileWriter(huffDict, fb, n);
-            writer.write("C:\\Users\\PC\\Desktop\\gbbct10.seq\\compressed.hc");
+            writer.write("C:\\Users\\PC\\Desktop\\gbbct10.seq\\testcompressed.txt");
             printMessageWithTime("Wrote the file to disk.");
+        } else {
+            HuffmanDecompressor.decompress(fb, "C:\\Users\\PC\\Desktop\\gbbct10.seq\\testdecompressed.txt");
         }
     }
 
