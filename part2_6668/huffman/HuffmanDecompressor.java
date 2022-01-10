@@ -66,6 +66,7 @@ public final class HuffmanDecompressor {
             }
 
             blockWriter.commitRemaining();
+            writer.getChannel().truncate(originalSize);
         }
     }
 
@@ -92,6 +93,7 @@ public final class HuffmanDecompressor {
                 builder.append('0');
             }
         }
+
         return builder.toString();
     }
 

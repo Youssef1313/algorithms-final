@@ -11,10 +11,10 @@ public class Main {
         if (args.length == 0) {
             isCompressing = false;
             //filePath = "/media/zayton/HDD-Data/desktop/eng/7thTerm/Alg/algorithms-final/part2_6668/file";
-            //filePath = "C:\\Users\\PC\\Desktop\\gbbct10.seq\\gbbct10.seq";
+            filePath = "C:\\Users\\PC\\Desktop\\gbbct10.seq\\testcompressed.txt";
             //filePath = "C:\\Users\\PC\\Downloads\\Sheet 8.pdf";
 
-            filePath = "C:\\Users\\PC\\Desktop\\gbbct10.seq\\compressed.hc";
+            //filePath = "C:\\Users\\PC\\Desktop\\gbbct10.seq\\test";
         } else {
             if (args[0] != "c" && args[0] != "d") {
                 throw new Exception("The first argument should either be 'c' or 'd'.");
@@ -38,10 +38,10 @@ public class Main {
             printMessageWithTime("Constructed huffman tree...");
             printMessageWithTime("Writing to the file...");
             var writer = new HuffmanFileWriter(huffDict, fb, n);
-            writer.write("C:\\Users\\PC\\Desktop\\gbbct10.seq\\compressed.hc");
+            writer.write("C:\\Users\\PC\\Desktop\\gbbct10.seq\\testcompressed.txt");
             printMessageWithTime("Wrote the file to disk.");
         } else {
-            HuffmanDecompressor.decompress(fb, "C:\\Users\\PC\\Desktop\\gbbct10.seq\\decompressed.hc");
+            HuffmanDecompressor.decompress(fb, "C:\\Users\\PC\\Desktop\\gbbct10.seq\\testdecompressed.txt");
         }
     }
 

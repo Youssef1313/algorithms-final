@@ -17,6 +17,7 @@ public class FileBlockWriter {
 
     public void write(int b) throws IOException {
         blocks[counter++] = (byte)b;
+
         if (counter == blockSizeInBytes) {
             fileOutputStream.write(blocks);
             counter = 0;

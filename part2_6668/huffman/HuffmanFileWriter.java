@@ -96,14 +96,15 @@ public final class HuffmanFileWriter {
             }
         }
 
-        if (builder.length() > 0) {
-            for (int i = 0; i < 8 - builder.length(); i++) {
+        var builderLength = builder.length();
+        if (builderLength > 0) {
+            for (int i = 0; i < 8 - builderLength; i++) {
                 // A file can't contain a partial of byte.
                 // Adding zeros to the end shouldn't be ambiguous since no encoding is a prefix of another.
                 builder.append('0');
             }
 
-            blockWriter.write(Integer.parseInt(builder.toString()));
+            blockWriter.write(Integer.parseInt(builder.toString(), 2));
         }
 
         blockWriter.commitRemaining();
@@ -120,14 +121,15 @@ public final class HuffmanFileWriter {
             }
         }
 
-        if (builder.length() > 0) {
-            for (int i = 0; i < 8 - builder.length(); i++) {
+        var builderLength = builder.length();
+        if (builderLength > 0) {
+            for (int i = 0; i < 8 - builderLength; i++) {
                 // A file can't contain a partial of byte.
                 // Adding zeros to the end wouldn't be ambiguous since no we know the number of items in dictionary.
                 // The decompression will just skip the remaining part of this byte.
                 builder.append('0');
             }
-            writer.write(Integer.parseInt(builder.toString()));
+            writer.write(Integer.parseInt(builder.toString(), 2));
         }
     }
 
