@@ -37,7 +37,11 @@ public final class HuffmanDecompressor {
         }
 
         int startOfEncodings = FIRST_DICTIONARY_ELEMENT_INDEX + n * numberOfElementsInDictionary;
-        int offsetBits = numberOfElementsInDictionary + sizeOfElementEncodingsInBits;
+        int offsetBits = numberOfElementsInDictionary * sizeOfElementEncodingsInBits;
+        if (offsetBits % 8 != 0) {
+            offsetBits += 8 - offsetBits % 8;
+        }
+
         var builder = new StringBuilder(numberOfElementsInDictionary);
 
         var file = new File(filePath);
