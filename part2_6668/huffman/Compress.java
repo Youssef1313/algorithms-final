@@ -16,8 +16,7 @@ public class Compress {
             MappedByteBuffer buffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, 0, fileChannel.size());
             var file_b = new byte[(int) fileChannel.size()];
             // the buffer now reads the file as if it were loaded in memory.
-            System.out.println(buffer.isLoaded());  //prints false
-            System.out.println(buffer.capacity());  //Get the size based on content size of file
+            assert buffer.isLoaded() == false;
             buffer.get(file_b);
             return file_b;
         } catch (IOException e) {
