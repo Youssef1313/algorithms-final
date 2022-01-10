@@ -1,5 +1,8 @@
 package huffman;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
@@ -10,7 +13,7 @@ public final class HuffmanDecompressor {
     private HuffmanDecompressor() {
     }
 
-    public static void decompress(byte[] decompressedFile) {
+    public static void decompress(byte[] decompressedFile, String filePath) throws IOException {
         // SIZE_BYTE1 SIZE_BYTE2 SIZE_BYTE3 SIZE_BYTE4
         // n NUMBER_OF_ELEMENTS_IN_DICTIONARY(S) SIZE_OF_ELEMENT_ENCODING_IN_BITS(ENC)
         // BYTE1_1 BYTE2_1 ... BYTE_N_1  (the bytes of first element in dictionary)
@@ -22,7 +25,7 @@ public final class HuffmanDecompressor {
         int n = decompressedFile[4];
         int numberOfElementsInDictionary = decompressedFile[5];
         int sizeOfElementEncodingsInBits = decompressedFile[6];
-        var dictionary = new HashMap<BigInteger, String>(numberOfElementsInDictionary);
+        var dictionary = new HashMap<String, BigInteger>(numberOfElementsInDictionary);
         var dictionary_element = new byte[n];
         int read_bytes = FIRST_DICTIONARY_ELEMENT_INDEX; // the number of already-read bytes. ie, the index to read next.
         for (int i = 0; i < numberOfElementsInDictionary; i++) {
@@ -30,7 +33,35 @@ public final class HuffmanDecompressor {
                 dictionary_element[j] = decompressedFile[read_bytes++];
             }
 
-            dictionary.put(new BigInteger(dictionary_element), readEncodingFromHeader(decompressedFile, i, sizeOfElementEncodingsInBits, n, numberOfElementsInDictionary));
+            dictionary.put(readEncodingFromHeader(decompressedFile, i, sizeOfElementEncodingsInBits, n, numberOfElementsInDictionary), new BigInteger(dictionary_element));
+        }
+
+        int startOfEncodings = FIRST_DICTIONARY_ELEMENT_INDEX + n * numberOfElementsInDictionary;
+        int offsetBits = numberOfElementsInDictionary + sizeOfElementEncodingsInBits;
+        var builder = new StringBuilder(numberOfElementsInDictionary);
+
+        var file = new File(filePath);
+        if (file.exists()) {
+            file.delete();
+        }
+
+        try (var writer = new FileOutputStream(file)) {
+            var blockWriter = new FileBlockWriter(writer, 2048);
+            while (startOfEncodings + offsetBits / 8 < decompressedFile.length) {
+                boolean bit = readBit(decompressedFile, startOfEncodings, offsetBits);
+                builder.append(bit ? '1' : '0');
+                if (dictionary.containsKey(builder.toString())) {
+                    var bytes = dictionary.get(builder.toString()).toByteArray();
+                    for (var b : bytes) {
+                        blockWriter.write(b);
+                    }
+
+                    builder.setLength(0);
+                }
+                offsetBits++;
+            }
+
+            blockWriter.commitRemaining();
         }
     }
 
@@ -64,6 +95,8 @@ public final class HuffmanDecompressor {
         offsetBytes += offsetBits / 8;
         offsetBits = offsetBits % 8; // Offset is from most significant bit.
         var b = decompressedFile[offsetBytes];
-        return ((1 << (8 - offsetBits)) & b) != 0;
+        // For illustration:
+        // Assume offsetBits is 6, we want the mask to be 00000010
+        return ((1 << (8 - offsetBits - 1)) & b) != 0;
     }
 }

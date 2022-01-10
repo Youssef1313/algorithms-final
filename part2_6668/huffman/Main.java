@@ -9,12 +9,12 @@ public class Main {
         String filePath;
         int n = 1;
         if (args.length == 0) {
-            isCompressing = true;
+            isCompressing = false;
             //filePath = "/media/zayton/HDD-Data/desktop/eng/7thTerm/Alg/algorithms-final/part2_6668/file";
-            filePath = "C:\\Users\\PC\\Desktop\\gbbct10.seq\\gbbct10.seq";
+            //filePath = "C:\\Users\\PC\\Desktop\\gbbct10.seq\\gbbct10.seq";
             //filePath = "C:\\Users\\PC\\Downloads\\Sheet 8.pdf";
 
-            //filePath = "C:\\Users\\PC\\Desktop\\gbbct10.seq\\compressed.hc";
+            filePath = "C:\\Users\\PC\\Desktop\\gbbct10.seq\\compressed.hc";
         } else {
             if (args[0] != "c" && args[0] != "d") {
                 throw new Exception("The first argument should either be 'c' or 'd'.");
@@ -41,7 +41,7 @@ public class Main {
             writer.write("C:\\Users\\PC\\Desktop\\gbbct10.seq\\compressed.hc");
             printMessageWithTime("Wrote the file to disk.");
         } else {
-            HuffmanDecompressor.decompress(fb);
+            HuffmanDecompressor.decompress(fb, "C:\\Users\\PC\\Desktop\\gbbct10.seq\\decompressed.hc");
         }
     }
 
