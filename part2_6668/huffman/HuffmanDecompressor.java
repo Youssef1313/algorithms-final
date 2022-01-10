@@ -13,7 +13,7 @@ public final class HuffmanDecompressor {
     private HuffmanDecompressor() {
     }
 
-    public static void decompress(byte[] decompressedFile, String filePath) throws IOException {
+    public static void decompress(byte[] compressedFile, String filePath) throws IOException {
         // SIZE_BYTE1 SIZE_BYTE2 SIZE_BYTE3 SIZE_BYTE4
         // n NUMBER_OF_ELEMENTS_IN_DICTIONARY(S) SIZE_OF_ELEMENT_ENCODING_IN_BITS(ENC)
         // BYTE1_1 BYTE2_1 ... BYTE_N_1  (the bytes of first element in dictionary)
@@ -21,19 +21,19 @@ public final class HuffmanDecompressor {
         // .....
         // BYTE1_S .............
         // THE ENCODINGS, EACH HAS ENC bit
-        int originalSize = ByteBuffer.wrap(new byte[] {decompressedFile[0], decompressedFile[1], decompressedFile[2], decompressedFile[3]}).getInt();
-        int n = decompressedFile[4];
-        int numberOfElementsInDictionary = decompressedFile[5];
-        int sizeOfElementEncodingsInBits = decompressedFile[6];
+        int originalSize = ByteBuffer.wrap(new byte[] {compressedFile[0], compressedFile[1], compressedFile[2], compressedFile[3]}).getInt();
+        int n = compressedFile[4];
+        int numberOfElementsInDictionary = compressedFile[5];
+        int sizeOfElementEncodingsInBits = compressedFile[6];
         var dictionary = new HashMap<String, BigInteger>(numberOfElementsInDictionary);
         var dictionary_element = new byte[n];
         int read_bytes = FIRST_DICTIONARY_ELEMENT_INDEX; // the number of already-read bytes. ie, the index to read next.
         for (int i = 0; i < numberOfElementsInDictionary; i++) {
             for (int j = 0; j < n; j++) {
-                dictionary_element[j] = decompressedFile[read_bytes++];
+                dictionary_element[j] = compressedFile[read_bytes++];
             }
 
-            dictionary.put(readEncodingFromHeader(decompressedFile, i, sizeOfElementEncodingsInBits, n, numberOfElementsInDictionary), new BigInteger(dictionary_element));
+            dictionary.put(readEncodingFromHeader(compressedFile, i, sizeOfElementEncodingsInBits, n, numberOfElementsInDictionary), new BigInteger(dictionary_element));
         }
 
         int startOfEncodings = FIRST_DICTIONARY_ELEMENT_INDEX + n * numberOfElementsInDictionary;
@@ -47,8 +47,8 @@ public final class HuffmanDecompressor {
 
         try (var writer = new FileOutputStream(file)) {
             var blockWriter = new FileBlockWriter(writer, 2048);
-            while (startOfEncodings + offsetBits / 8 < decompressedFile.length) {
-                boolean bit = readBit(decompressedFile, startOfEncodings, offsetBits);
+            while (startOfEncodings + offsetBits / 8 < compressedFile.length) {
+                boolean bit = readBit(compressedFile, startOfEncodings, offsetBits);
                 builder.append(bit ? '1' : '0');
                 if (dictionary.containsKey(builder.toString())) {
                     var bytes = dictionary.get(builder.toString()).toByteArray();
