@@ -10,15 +10,15 @@ public class Main {
 
         boolean isCompressing;
         String filePath;
-        int n = 3;
+        int n = 1;
         if (args.length == 0) {
             isCompressing = true;
             //filePath = "/media/zayton/HDD-Data/desktop/eng/7thTerm/Alg/algorithms-final/part2_6668/compressed.hc";
 
-            //filePath = "C:\\Users\\PC\\Desktop\\algorithms-final-mvn\\algorithms-final\\test_group_16.txt";
+            filePath = "C:\\Users\\PC\\Desktop\\algorithms-final-mvn\\algorithms-final\\test_group_16.txt";
             //filePath = "C:\\Users\\PC\\Desktop\\algorithms-final-mvn\\algorithms-final\\6668.3.test_group_16.txt.hc";
 
-            filePath = "C:\\Users\\PC\\Desktop\\gbbct10.seq\\gbbct10.seq";
+            //filePath = "C:\\Users\\PC\\Desktop\\gbbct10.seq\\gbbct10.seq";
         } else {
             if (args[0] != "c" && args[0] != "d") {
                 throw new Exception("The first argument should either be 'c' or 'd'.");
