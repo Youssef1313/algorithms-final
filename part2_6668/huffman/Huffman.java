@@ -13,6 +13,18 @@ public class Huffman {
         Node root = huffmanAlgorithm(pQueue);
         HashMap<BigInteger, String> huffmanDict = new HashMap<>();
         extractDict(root, huffmanDict, "");
+        if (number_n == 1) {
+            for (var pair : huffmanDict.entrySet()) {
+                var b = pair.getKey().toByteArray()[0];
+                var c = (char)b;
+                System.out.print("Encoding of character ");
+                System.out.print(c);
+                System.out.print(" (byte: ");
+                System.out.print(b);
+                System.out.print(") is: ");
+                System.out.println(pair.getValue());
+            }
+        }
         return huffmanDict;
     }
 
